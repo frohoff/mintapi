@@ -81,9 +81,10 @@ def get_web_driver(email, password, headless=False, mfa_method=None,
                 driver.find_element_by_id('ius-mfa-options-form')
                 try:
                     mfa_method_option = driver.find_element_by_id('ius-mfa-option-{}'.format(mfa_method))
-                    mfa_method_option.click()
-                    mfa_method_submit = driver.find_element_by_id("ius-mfa-options-submit-btn")
-                    mfa_method_submit.click()
+                    if mfa_method_option.is_displayed():
+                        mfa_method_option.click()
+                        mfa_method_submit = driver.find_element_by_id("ius-mfa-options-submit-btn")
+                        mfa_method_submit.click()
 
                     mfa_code = (mfa_input_callback or input)("Please enter your 6-digit MFA code: ")
                     mfa_code_input = driver.find_element_by_id("ius-mfa-confirm-code")
